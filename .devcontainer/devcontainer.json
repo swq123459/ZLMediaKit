@@ -1,0 +1,46 @@
+{
+    "name": "zlWorkLoad",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "service": "zl",
+    "workspaceFolder": "/workspace/zl",
+    "shutdownAction": "stopCompose",
+    "postStartCommand": "bash script/DevContainerPostCreate.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "actboy168.tasks",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "ms-vscode.cmake-tools",
+                "matepek.vscode-catch2-test-adapter",
+                "mhutchie.git-graph",
+                "eamodio.gitlens",
+                "rioukkevin.vscode-git-commit",
+                "ms-vscode.cpptools",
+                "ms-python.python"
+            ],
+            "settings": {
+                "clangd.arguments": [
+                    "-header-insertion=never"
+                ],
+                "cmake.preferredGenerators": [
+                    "Ninja"
+                ],
+                "C_Cpp.autoAddFileAssociations": false,
+                "C_Cpp.intelliSenseEngine": "disabled",
+                "C_Cpp.autocomplete": "disabled",
+                "C_Cpp.errorSquiggles": "disabled",
+                "files.autoGuessEncoding": true,
+                "files.autoSave": "onFocusChange",
+                "[cpp]": {
+                    "editor.formatOnSave": true,
+                    "editor.formatOnSaveMode": "modifications",
+                    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+                },
+                "extensions.ignoreRecommendations": true,
+                "extensions.autoUpdate": false
+            }
+        }
+    }
+}

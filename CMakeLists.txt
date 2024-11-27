@@ -74,7 +74,7 @@ message(STATUS "编译类型: ${CMAKE_BUILD_TYPE}")
 
 # 方便排查编译问题, 需要 FORCE CACHE, 否则需要命令行设置才生效
 # To facilitate the troubleshooting of compilation problems, you need to FORCE CACHE, otherwise you need to set it on the command line to take effect
-set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "" FORCE)
+# set(CMAKE_VERBOSE_MAKEFILE ON CACHE INTERNAL "" FORCE)
 
 # TODO: include 当前目录会导致 server 编译出错, 待排除
 set(CMAKE_INCLUDE_CURRENT_DIR OFF)
