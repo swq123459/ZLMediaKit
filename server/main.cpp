@@ -8,25 +8,28 @@
  * may be found in the AUTHORS file in the root of the source tree.
  */
 
-#include <signal.h>
-#include <iostream>
-#include "Util/File.h"
-#include "Util/logger.h"
-#include "Util/SSLBox.h"
-#include "Util/onceToken.h"
-#include "Util/CMD.h"
+#include "Common/config.h"
+#include "Http/WebSocketSession.h"
 #include "Network/TcpServer.h"
 #include "Network/UdpServer.h"
 #include "Poller/EventPoller.h"
-#include "Common/config.h"
-#include "Rtsp/RtspSession.h"
 #include "Rtmp/RtmpSession.h"
-#include "Shell/ShellSession.h"
-#include "Http/WebSocketSession.h"
 #include "Rtp/RtpServer.h"
+#include "Rtsp/RtspSession.h"
+#include "Shell/ShellSession.h"
+#include "Util/CMD.h"
+#include "Util/File.h"
+#include "Util/SSLBox.h"
+#include "Util/logger.h"
+#include "Util/onceToken.h"
 #include "WebApi.h"
 #include "WebHook.h"
-
+#include <iostream>
+#include <memory>
+#if defined(ENABLE_MDU)
+#include "../mdu/mdu/mdu.h"
+#endif
+#include <signal.h>
 #if defined(ENABLE_WEBRTC)
 #include "../webrtc/WebRtcTransport.h"
 #include "../webrtc/WebRtcSession.h"
@@ -435,7 +438,7 @@ int start_main(int argc,char *argv[]) {
             if (rtcPort) { rtcSrv_udp->start<WebRtcSession>(rtcPort, listen_ip);}
 
             if (rtcTcpPort) { rtcSrv_tcp->start<WebRtcSession>(rtcTcpPort, listen_ip);}
-             
+
 #endif//defined(ENABLE_WEBRTC)
 
 #if defined(ENABLE_SRT)
@@ -478,7 +481,19 @@ int start_main(int argc,char *argv[]) {
             g_reload_certificates();
         });
 #endif
+#if defined(ENABLE_MDU)
+        auto mdu = std::make_unique<mduServer>();
+        std::vector<string> args { "-f", "/workspace/zl/mdu/script/mdu.yaml" };
+        auto t = std::thread([&]() {
+            mdu->start(argc, argv);
+            mdu->wait_for_shutdown();
+        });
+
+#endif
+
         sem.wait();
+        mdu->shutdown();
+        t.join();
     }
     unInstallWebApi();
     unInstallWebHook();

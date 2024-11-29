@@ -332,7 +332,7 @@ public:
         return _map.erase(key);
     }
 
-    size_t size() { 
+    size_t size() {
         std::lock_guard<std::recursive_mutex> lck(_mtx);
         return _map.size();
     }
@@ -732,7 +732,6 @@ void addStreamPusherProxy(const string &schema,
     pusher->publish(url);
 }
 
-
 /**
  * 安装api接口
  * 所有api都支持GET和POST两种方式
@@ -740,7 +739,7 @@ void addStreamPusherProxy(const string &schema,
  * Install api interface
  * All apis support GET and POST methods
  * POST method parameters support application/json and application/x-www-form-urlencoded methods
- 
+
  * [AUTO-TRANSLATED:62e68c43]
  */
 void installWebApi() {

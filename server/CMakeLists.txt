@@ -45,6 +45,25 @@ else()
   add_executable(MediaServer ${MediaServer_SRC_LIST})
 endif()
 
+include(check_debian)
+check_debian(gvar_isDebian)
+
+set(rpath_suffix)
+if(gvar_isDebian)
+    set(rpath_suffix ",-disable-new-dtags")
+else()
+
+endif()
+
+if(UNIX)
+target_link_options(MediaServer PRIVATE
+"-Wl,-rpath=.${rpath_suffix}"
+"-Wl,-rpath=./lib64${rpath_suffix}"
+"-Wl,-rpath=../../lib${rpath_suffix}"  # for plugins (due to change cwd)
+"-Wl,-rpath=../lib${rpath_suffix}"     # for mdu
+)
+endif()
+
 target_compile_definitions(MediaServer
   PRIVATE ${COMPILE_DEFINITIONS})
 target_compile_options(MediaServer

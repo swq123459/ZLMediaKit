@@ -31,7 +31,8 @@ project(ZLMediaKit LANGUAGES C CXX)
 
 # 使能 C++11
 # Enable C++11
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(ENABLE_API "Enable C API SDK" ON)
 option(ENABLE_API_STATIC_LIB "Enable mk_api static lib" OFF)
@@ -493,6 +494,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # for assert.h
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdpart)
 
+
 add_subdirectory(3rdpart)
 
 add_subdirectory(src)
@@ -505,6 +507,12 @@ endif()
 
 if(ENABLE_WEBRTC)
   add_subdirectory(webrtc)
+endif()
+if(ENABLE_MDU)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/mdu mdu)
+    set_property(TARGET mdu PROPERTY POSITION_INDEPENDENT_CODE ON)
+    update_cached_list(MK_LINK_LIBRARIES mdu)
+    update_cached_list(MK_COMPILE_DEFINITIONS ENABLE_MDU)
 endif()
 
 if(ENABLE_API)
@@ -540,7 +548,7 @@ endif()
 if (ENABLE_TESTS)
   add_subdirectory(tests)
 endif ()
-
+# link_libraries(hyperex::hyperex)
 # 拷贝www文件夹、配置文件、默认证书
 # Copy www folder, configuration file, default certificate
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/www" DESTINATION ${EXECUTABLE_OUTPUT_PATH})
