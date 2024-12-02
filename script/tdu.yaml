@@ -22,6 +22,11 @@ config:
         port: 15543
         defaultRelayIp: 127.0.0.1
         logLevel: 0
+    -
+      name: fetch
+      libPath: /workspace/zl/thirdlib/EaxLibrary/EaxComponent/codecUnit/lib
+      enable: true
+
 
 
 
