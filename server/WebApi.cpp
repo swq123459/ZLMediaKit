@@ -244,9 +244,15 @@ extern uint64_t getThisThreadMemBlock();
 extern std::vector<size_t> getBlockTypeSize();
 extern uint64_t getTotalMemBlockByType(int type);
 extern uint64_t getThisThreadMemBlockByType(int type) ;
-
+extern std::function<string(const string &)> g_tdu_process;
 static void *web_api_tag = nullptr;
-
+static auto tdu_process(const string &_) -> string {
+    if (!g_tdu_process) {
+        ErrorL << "TDU no enable";
+        return "";
+    }
+    return g_tdu_process(_);
+}
 static inline void addHttpListener(){
     GET_CONFIG(bool, api_debug, API::kApiDebug);
     // 注册监听kBroadcastHttpRequest事件  [AUTO-TRANSLATED:4af22c90]
@@ -1219,6 +1225,12 @@ void installWebApi() {
             item["key"] = key;
             val["data"].append(item);
         });
+    });
+    api_regist("/index/api/tdu", [](API_ARGS_MAP_ASYNC) {
+        CHECK_SECRET();
+        auto content = allArgs.parser.content();
+        auto result_content = tdu_process(content);
+        invoker(200, headerOut, result_content);
     });
     // 动态添加rtsp/rtmp拉流代理  [AUTO-TRANSLATED:2616537c]
     // Dynamically add rtsp/rtmp pull stream proxy

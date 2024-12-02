@@ -151,7 +151,14 @@ public:
                              false,/*该选项是否必须赋值，如果没有默认值且为ArgRequired时用户必须提供该参数否则将抛异常*/
                              "配置文件路径",/*该选项说明文字*/
                              nullptr);
-
+        (*_parser) << Option(
+            'f', /*该选项简称，如果是\x00则说明无简称*/
+            "file", /*该选项全称,每个选项必须有全称；不得为null或空字符串*/
+            Option::ArgRequired, /*该选项后面必须跟值*/
+            (exeDir() + "config.ini").data(), /*该选项默认值*/
+            false, /*该选项是否必须赋值，如果没有默认值且为ArgRequired时用户必须提供该参数否则将抛异常*/
+            "配置文件路径", /*该选项说明文字*/
+            nullptr);
         (*_parser) << Option('s',/*该选项简称，如果是\x00则说明无简称*/
                              "ssl",/*该选项全称,每个选项必须有全称；不得为null或空字符串*/
                              Option::ArgRequired,/*该选项后面必须跟值*/
@@ -220,6 +227,7 @@ string g_ini_file;
 
 // 加载ssl证书函数对象
 std::function<void()> g_reload_certificates;
+std::function<string(const string &)> g_tdu_process;
 
 int start_main(int argc,char *argv[]) {
     {
@@ -482,17 +490,20 @@ int start_main(int argc,char *argv[]) {
         });
 #endif
 #if defined(ENABLE_MDU)
-        auto mdu = std::make_unique<mduServer>();
-        std::vector<string> args { "-f", "/workspace/zl/mdu/script/mdu.yaml" };
-        auto t = std::thread([&]() {
-            mdu->start(argc, argv);
-            mdu->wait_for_shutdown();
-        });
+        auto tdu = std::make_unique<mduServer>();
+        if (auto err = tdu->start(argc, argv); err) {
+            ErrorL << *err;
 
+            return -1;
+        }
+
+        auto t = std::thread([&]() { tdu->wait_for_shutdown(); });
+        g_tdu_process = [&tdu](const string &_) -> string { return tdu->_process(_); };
 #endif
-
         sem.wait();
-        mdu->shutdown();
+
+        tdu->shutdown();
+
         t.join();
     }
     unInstallWebApi();

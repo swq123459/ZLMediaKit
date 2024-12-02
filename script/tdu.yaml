@@ -1,0 +1,28 @@
+config:
+  api:
+
+      type: block
+  authCenter:
+      type: expire
+  logger:
+      type: []
+  plugin:
+    -
+      name: hk
+      enable: true
+      libPath: /workspace/zl/thirdlib/hk/lib
+
+    -
+      name: rtspserverV3
+      libPath: /workspace/zl/thirdlib/EaxLibrary/EaxComponent/rtspServer-rs/lib
+      enable: true
+
+      support.device: 0
+      settings:
+        port: 15543
+        defaultRelayIp: 127.0.0.1
+        logLevel: 0
+
+
+
+

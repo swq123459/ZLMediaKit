@@ -1,0 +1,14 @@
+{
+    "cmake.configureArgs": [
+        "-DDISABLE_REPORT=ON",
+        "-DENABLE_API=OFF",
+        "-DENABLE_TESTS=OFF",
+        "-DENABLE_WEBRTC=ON",
+        "-DENABLE_OPENSSL=ON",
+        "-DMDU_RT_OUTPUT_TYPE=OBJECT",
+        "-DENABLE_MDU=ON",
+        "-DENABLE_RTPPROXY=OFF", // to disable media-server depende
+        // "-DENABLE_HLS=OFF", // to disable media-server depende
+        // "-DENABLE_MP4=OFF", // to disable media-server depende
+    ]
+}
