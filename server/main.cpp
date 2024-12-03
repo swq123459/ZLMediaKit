@@ -27,7 +27,7 @@
 #include <iostream>
 #include <memory>
 #if defined(ENABLE_TDU)
-#include "../mdu/mdu/mdu.h"
+#include "../thirdlib/mdu-rt-src/src/mdu/mdu.h"
 #endif
 #include <signal.h>
 #if defined(ENABLE_WEBRTC)
