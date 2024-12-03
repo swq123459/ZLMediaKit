@@ -13,8 +13,8 @@ config:
       libPath: /workspace/zl/thirdlib/hk/lib
 
     -
-      name: rtspserverV3
-      libPath: /workspace/zl/thirdlib/EaxLibrary/EaxComponent/rtspServer-rs/lib
+      name: httpserver
+      libPath: /workspace/zl/thirdlib/EaxLibrary/EaxComponent/h5ss/lib
       enable: true
 
       support.device: 0

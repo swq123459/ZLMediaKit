@@ -3,7 +3,7 @@
         "-DDISABLE_REPORT=ON",
         "-DENABLE_API=OFF",
         "-DENABLE_TESTS=OFF",
-        "-DENABLE_WEBRTC=ON",
+        "-DENABLE_WEBRTC=OFF",
         "-DENABLE_OPENSSL=ON",
         "-DMDU_RT_OUTPUT_TYPE=OBJECT",
         "-DENABLE_MDU=ON",
