@@ -26,7 +26,7 @@
 #include "WebHook.h"
 #include <iostream>
 #include <memory>
-#if defined(ENABLE_MDU)
+#if defined(ENABLE_TDU)
 #include "../mdu/mdu/mdu.h"
 #endif
 #include <signal.h>
@@ -489,7 +489,7 @@ int start_main(int argc,char *argv[]) {
             g_reload_certificates();
         });
 #endif
-#if defined(ENABLE_MDU)
+#if defined(ENABLE_TDU)
         auto tdu = std::make_unique<mduServer>();
         if (auto err = tdu->start(argc, argv); err) {
             ErrorL << *err;

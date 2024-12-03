@@ -6,7 +6,7 @@
         "-DENABLE_WEBRTC=OFF",
         "-DENABLE_OPENSSL=ON",
         "-DMDU_RT_OUTPUT_TYPE=OBJECT",
-        "-DENABLE_MDU=ON",
+        "-DENABLE_TDU=ON",
         "-DENABLE_RTPPROXY=ON", // (For GBMedia) to disable media-server depende
         // "-DENABLE_HLS=OFF", // to disable media-server depende
         // "-DENABLE_MP4=OFF", // to disable media-server depende

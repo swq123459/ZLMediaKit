@@ -13,7 +13,6 @@ services:
     - ..:/workspace/zl
     - ../../thirdlib/:/workspace/zl/thirdlib
     - ../../video-sample/:/workspace/zl/video-sample
-    - ../../mdu/:/workspace/zl/mdu
 
   entrypoint:
     - /bin/sh
